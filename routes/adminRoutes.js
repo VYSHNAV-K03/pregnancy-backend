@@ -5,6 +5,7 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 const PatientDailyData = require("../models/PatientDailyData");
 const PatientTip = require("../models/PatientTip");
+const ContactMessage = require("../models/ContactMessage");
 
 router.get("/patients", async (req, res) => {
   try {
@@ -178,6 +179,18 @@ router.delete("/patient/tip/:tipId", async (req, res) => {
     res.json({ message: "Tip deleted" });
   } catch {
     res.status(500).json({ message: "Delete failed" });
+  }
+});
+
+router.get("/inbox", async (req, res) => {
+  try {
+    const messages = await ContactMessage.find()
+      .sort({ createdAt: -1 })
+      .select("name subject message createdAt");
+
+    res.json(messages);
+  } catch (err) {
+    res.status(500).json({ message: "Failed to load inbox" });
   }
 });
 module.exports = router;

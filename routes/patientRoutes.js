@@ -3,6 +3,7 @@ const User = require("../models/userModel");
 const PatientHealth = require("../models/PatientHealth");
 const PatientDailyData = require("../models/PatientDailyData");
 const PatientTip = require("../models/PatientTip");
+const ContactMessage = require("../models/ContactMessage");
 const router = express.Router();
 
 // Get patient profile by patient token ID
@@ -69,6 +70,29 @@ router.get("/:id/tips", async (req, res) => {
     res.json(tips);
   } catch (err) {
     res.status(500).json({ message: "Server error" });
+  }
+});
+
+router.post("/contact", async (req, res) => {
+  try {
+    const { patientId, name, email, subject, message } = req.body;
+
+    if (!patientId) {
+      return res.status(400).json({ error: "Patient not authenticated" });
+    }
+
+    const newMessage = new ContactMessage({
+      patientId,
+      name,
+      email,
+      subject,
+      message,
+    });
+
+    await newMessage.save();
+    res.status(201).json({ message: "Message sent" });
+  } catch (err) {
+    res.status(500).json({ error: "Failed to send message" });
   }
 });
 
