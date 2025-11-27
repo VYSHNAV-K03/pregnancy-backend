@@ -8,17 +8,15 @@ const patientHealthSchema = new mongoose.Schema(
       required: true,
     },
 
-    // 🔹 Basic Patient Data Section
-    patientName: String, // Name
-    hospitalId: String, // Hospital / Clinic ID
+    // ✅ BASIC PROFILE DETAILS (STATIC)
+    patientName: String,
+    hospitalId: String,
     age: Number,
     trimester: {
-      // 1st / 2nd / 3rd
       type: String,
       enum: ["1st", "2nd", "3rd"],
     },
     patientType: {
-      // Normal Pregnant / Lactating / Postnatal
       type: String,
       enum: ["Pregnant", "Lactating", "Postnatal"],
     },
@@ -31,12 +29,41 @@ const patientHealthSchema = new mongoose.Schema(
       enum: ["Veg", "Non-Veg", "Egg", "Vegan"],
     },
 
-    // 🔹 Known deficiencies
     deficiencies: {
       anemia: { type: Boolean, default: false },
       vitaminD: { type: Boolean, default: false },
       proteinEnergy: { type: Boolean, default: false },
     },
+
+    // ✅ CHECKUP DETAILS (DYNAMIC)
+    bp: String,
+    heartRate: String,
+    sugar: String,
+    fetalMovement: String,
+    uterusSize: String,
+    babyPosition: String,
+    growthStatus: String,
+    complications: String,
+
+    // ✅ DATES & STAGES
+    lmp: Date,
+    edd: Date,
+    pregnancyWeek: Number,
+
+    // ✅ MEDICAL HISTORY
+    bloodGroup: String,
+    allergies: String,
+    chronicConditions: String,
+    medications: String,
+
+    // ✅ REPORTS
+    scanReport: String,
+
+    // ✅ DOCTOR INPUT
+    doctorNotes: String,
+
+    // ✅ NOTES
+    notes: String,
   },
   { timestamps: true }
 );
